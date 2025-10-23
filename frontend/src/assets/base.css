@@ -1,0 +1,733 @@
+/* ======================================== */
+/* ====== 01. GERAIS / LAYOUT BÁSICO ====== */
+/* ======================================== */
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f8f9fa;
+}
+
+/* Container Principal para Listas e Detalhes */
+.container {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 30px;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Container específico para Formulários (Edição/Cadastro) */
+.container.form-page {
+  max-width: 1200px;
+  padding: 40px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+  margin: 50px auto;
+}
+
+h1 {
+  text-align: center;
+  margin-bottom: 40px;
+  color: #2c3e50;
+  font-size: 1.8rem;
+}
+
+/* =================================================== */
+/* ===== 02. FORMULÁRIO PRINCIPAL (Usuários/Endereços) ===== */
+/* =================================================== */
+
+/* Layout Principal de Grid (4 Colunas) */
+.main-form-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-bottom: 20px;
+  margin-bottom: 30px;
+  border-bottom: 1px solid #c0ccda;
+}
+
+/* Classes para controlar a largura dos campos no grid */
+.form-group.span-1 {
+  grid-column: span 1;
+}
+.form-group.span-2 {
+  grid-column: span 2;
+}
+.form-group.span-3 {
+  grid-column: span 3;
+}
+.form-group.span-4 {
+  grid-column: span 4;
+}
+
+.grid-title {
+  grid-column: 1 / span 4;
+  border-bottom: 1px dashed #ddd;
+  padding-bottom: 10px;
+  margin-top: 20px;
+  color: #34495e;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* Estilos dos Grupos de Campo */
+.form-group {
+  margin-bottom: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 8px;
+  color: #34495e;
+  font-size: 1rem;
+  position: relative;
+}
+
+/* Seletor específico para campos obrigatórios */
+.label-required::after {
+  content: " *";
+  color: #dc3545;
+  font-weight: bold;
+  white-space: nowrap;
+}
+
+input,
+select {
+  padding: 12px;
+  border: 1px solid #c0ccda;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+
+input:focus,
+select:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+/* ========================================================== */
+/* ===== 03. BOTÕES DE AÇÃO DO FORMULÁRIO (Novo/Salvar) ===== */
+/* ========================================================== */
+
+/* Container para o botão/grupo de botões de adicionar/salvar endereço */
+.add-button-container {
+  grid-column: span 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.button-group-row {
+  display: flex;
+  gap: 10px;
+}
+
+/* Botão Salvar/Adicionar Endereço */
+.btn-add-address {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  font-size: 1rem;
+  width: 150px;
+  text-align: center;
+}
+.btn-add-address:disabled {
+  background: #6f9dcf;
+  cursor: not-allowed;
+}
+
+/* Botão Cancelar Endereço */
+.btn-cancel-address {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  font-size: 1rem;
+  min-width: 150px;
+}
+.btn-cancel-address:hover {
+  background: #c82333;
+}
+
+/* Ações do Formulário (Rodapé Salvar/Voltar) */
+.form-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 40px;
+  padding-top: 25px;
+  border-top: 1px solid #c0ccda;
+  gap: 15px;
+}
+
+.btn-save {
+  background: #007bff;
+  color: white;
+  padding: 14px 25px;
+  border: 1px solid #c0ccda;
+  border-radius: 8px;
+  min-width: 150px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  border: none;
+}
+.btn-save:hover {
+  background: #0056b3;
+}
+.btn-save:disabled {
+  background: #6f9dcf;
+  cursor: not-allowed;
+}
+
+.btn-back {
+  background: #f8f9fa;
+  color: #6c757d;
+  padding: 14px 25px;
+  border: 1px solid #c0ccda;
+  border-radius: 8px;
+  width: 100px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+}
+.btn-back:hover {
+  background: #e9ecef;
+}
+
+/* ================================================================== */
+/* ===== 04. BOTÕES E TOOLTIPS DA GRID (ListaUsuario & FormEndereco) ===== */
+/* ================================================================== */
+
+/* Estilos base para todos os botões de ação na tabela (ListaUsuario) */
+.btn-detail,
+.btn-edit,
+.btn-delete {
+  position: relative;
+  text-decoration: none;
+  padding: 6px 8px;
+  margin: 0 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: opacity 0.3s;
+  line-height: 1;
+  color: white;
+  border: none;
+  display: inline-block;
+}
+
+/* Botões da Tabela ListaUsuario (Cores) */
+.btn-detail {
+  background: #28a745;
+} /* Verde: Ver Detalhes */
+.btn-edit {
+  background: #ffc107;
+} /* Amarelo: Editar Usuário */
+.btn-delete {
+  background: #dc3545;
+} /* Vermelho: Excluir Usuário */
+
+/* Botões da Tabela AddressForm (Ação: Editar Endereço, Excluir Endereço) */
+.btn-edit-grid,
+.btn-remove-grid {
+  border: none;
+  padding: 6px 8px;
+  margin: 0 2px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: opacity 0.3s;
+  line-height: 1;
+  position: relative;
+}
+.btn-edit-grid {
+  background: #ffc107;
+} /* Amarelo: Editar Endereço */
+.btn-remove-grid {
+  background: #dc3545;
+  color: white;
+}
+.btn-edit-grid:disabled,
+.btn-remove-grid:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+/* Botão "Novo Endereço" (dentro da lista) */
+.btn-new-address {
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+  font-size: 0.9rem;
+}
+.btn-new-address:hover {
+  background: #0056b3;
+}
+
+/* --- Tooltips Comuns (::depois e ::antes) --- */
+.btn-detail:hover::after,
+.btn-edit:hover::after,
+.btn-delete:hover::after,
+.btn-edit-grid:hover::after,
+.btn-remove-grid:hover::after,
+.btn-quick-add:hover::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  bottom: 120%;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  z-index: 1000;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+.btn-detail:hover::before,
+.btn-edit:hover::before,
+.btn-delete:hover::before,
+.btn-edit-grid:hover::before,
+.btn-remove-grid:hover::before {
+  content: "";
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: #333 transparent transparent transparent;
+  z-index: 1001;
+  opacity: 1;
+  transition: opacity 0.3s;
+}
+
+/* Estilos para os controles de Paginação */
+.pagination-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 25px;
+  padding-top: 15px;
+  border-top: 1px solid #c0ccda;
+}
+
+.pagination-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.btn-page {
+  background: #6c757d;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: background 0.3s;
+}
+
+.btn-page:hover:not(:disabled) {
+  background: #5a6268;
+}
+
+.btn-page:disabled {
+  background: #e9ecef;
+  color: #b0b0b0;
+  cursor: not-allowed;
+}
+
+/* Alinha os botões de ação e o seletor de paginação no topo */
+.list-actions-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.list-buttons {
+  display: flex;
+  gap: 10px;
+}
+
+.per-page-selector {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.per-page-selector label {
+  font-weight: normal;
+  margin-bottom: 0;
+  color: #34495e;
+}
+
+/* Mensagem de loading */
+.loading-message {
+  text-align: center;
+  font-weight: bold;
+  color: #007bff;
+  margin-top: 50px;
+  font-size: 1.1rem;
+}
+/* ===================================================== */
+/* ===== 05. COMPONENTES ESTRUTURAIS (LISTAS/GRID) ===== */
+/* ===================================================== */
+
+/* Tabela de Usuários (UserList - ListaUsuario) & (AddressForm - Endereco)  */
+.user-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-top: 25px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  border-radius: 8px;
+}
+.user-table th,
+.user-table td {
+  border: none;
+  padding: 12px 8px;
+  text-align: center;
+  white-space: nowrap;
+}
+.user-table th {
+  background-color: #34495e;
+  color: white;
+  font-weight: bold;
+  border-bottom: 2px solid #2c3e50;
+}
+.user-table tbody tr:nth-child(even) {
+  background-color: #f7f7f7;
+}
+.user-table tbody tr:hover {
+  background-color: #f0f0f0;
+  cursor: default;
+}
+/* Estilo para a célula de Ações (alinha botões dentro da célula) */
+.user-table td:last-child {
+  display: flex;
+  justify-content: center;
+  gap: 3px;
+}
+
+/* Container de Endereços (AddressForm) */
+.address-list-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 15px;
+}
+.address-list-container h4 {
+  margin: 0;
+}
+
+/* Centraliza a mensagem de lista vazia de usuários e endereços */
+.empty,
+.empty-list {
+  text-align: center;
+  font-style: italic;
+  margin-top: 20px;
+  color: #6c757d;
+}
+
+/* ========================================== */
+/* ===== 06. PESQUISA/FILTRO (UserList) ===== */
+/* ========================================== */
+
+.search-form {
+  background: #f0f4f7;
+  padding: 25px;
+  border-radius: 10px;
+  margin-bottom: 30px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+}
+.search-form h3 {
+  margin-top: 0;
+  border-bottom: 1px solid #dcdfe6;
+  padding-bottom: 15px;
+  font-size: 1.2rem;
+  color: #34495e;
+}
+.form-row {
+  display: flex;
+  gap: 25px;
+  margin-bottom: 15px;
+}
+.search-form .form-group {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.search-form input {
+  padding: 10px;
+  border: 1px solid #c0ccda;
+  border-radius: 6px;
+  transition: border-color 0.3s;
+}
+.search-form input:focus {
+  border-color: #0056b3;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.25);
+}
+.search-actions {
+  margin-top: 20px;
+  display: flex;
+  gap: 15px;
+}
+.btn-search,
+.btn-clear {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+.btn-search {
+  background: #007bff;
+  color: white;
+}
+.btn-clear {
+  background: #6c757d;
+  color: white;
+}
+.btn-search:hover {
+  background: #0056b3;
+}
+.btn-clear:hover {
+  background: #5a6268;
+}
+
+/* Botões principais (Novo Usuário / Atualizar Lista) */
+.btn-refresh,
+.btn-new {
+  min-width: 130px;
+  text-align: center;
+  margin: 1px 5px 5px 5px;
+  padding: 10px 20px;
+  background: #2c3e50;
+  color: white;
+  border-radius: 8px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  font-weight: bold;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background 0.3s ease;
+  border: none;
+  display: inline-block;
+}
+.btn-refresh:hover,
+.btn-new:hover {
+  background: #0056b3;
+}
+
+/* ========================================= */
+/* ======= 07. DETALHES (UserDetail) ======= */
+/* ========================================= */
+
+.details-card {
+  margin-bottom: 25px;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+}
+.details-card h2 {
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 10px;
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.2rem;
+}
+.details-card p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+.address-item {
+  margin-top: 15px;
+  padding: 10px;
+  border-left: 3px solid #007bff;
+  background: #f4f8ff;
+}
+.address-item h4 {
+  margin: 0 0 10px 0;
+  font-size: 1rem;
+  color: #007bff;
+}
+
+/* Botão Editar na tela de detalhe */
+.btn-edit-detail {
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  text-decoration: none;
+  min-width: 150px;
+  text-align: center;
+  transition: background 0.3s ease;
+  font-weight: bold;
+}
+.btn-edit-detail:hover {
+  background: #0056b3;
+}
+
+/* ========================================== */
+/* ========== 08. CABEÇALHO DO APP ========== */
+/* ========================================== */
+
+.navbar {
+  background: #2c3e50;
+  color: white;
+  padding: 15px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-logo {
+  font-weight: bold;
+  font-size: 1.3rem;
+}
+.navbar-links {
+  list-style: none;
+  display: flex;
+  gap: 20px;
+}
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  transition: 0.3s;
+}
+.navbar-links a:hover {
+  color: #007bff;
+}
+.content {
+  padding: 30px;
+  background: #f8f9fa;
+  min-height: 100vh;
+}
+
+/* ========================================= */
+/* ======== 09. MENSAGENS E ESTADOS ======== */
+/* ========================================= */
+
+.success {
+  color: green;
+  text-align: center;
+  margin-top: 15px;
+}
+
+.error {
+  color: red;
+  text-align: center;
+}
+
+/* =============================================== */
+/* ======== 10. CADASTRO RÁPIDO DE PERFIL ======== */
+/* =============================================== */
+
+.role-select-group {
+  grid-column: span 1;
+}
+
+.select-with-button {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.select-with-button select {
+  flex-grow: 1;
+}
+
+/* Estilo para o botão pequeno de Adicionar Perfil */
+.btn-quick-add {
+  position: relative;
+  background: #007bff;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  line-height: 1;
+  font-size: 1.1rem;
+  height: 40px;
+  min-width: 40px;
+  transition: background 0.3s;
+}
+.btn-quick-add:hover {
+  background: #0056b3;
+}
+.btn-quick-add:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+/* Estilos para a linha do input de novo perfil */
+.add-role-row {
+  grid-column: 1 / span 4;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 15px;
+  padding: 10px;
+  background: #f0f4f7;
+  border-radius: 6px;
+}
+.add-role-row input {
+  flex-grow: 2;
+  padding: 12px 30px;
+  min-width: 240px;
+}
+
+.btn-add-role {
+  background: #007bff;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-cancel-role {
+  background: #6c757d;
+  color: white;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+/* ============================================================ */
+/* ======== 11. ESTRUTURA VISUAL (Navbar, Main Content ======== */
+/* ============================================================ */
+
+body {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  margin: 0;
+  background-color: #f8f9fa;
+}
