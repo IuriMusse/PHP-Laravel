@@ -8,15 +8,46 @@
           <label class="label-required">Nome:</label>
           <input v-model="user.name" required />
         </div>
+
         <div class="form-group span-4">
           <label class="label-required">Email:</label>
-          <input v-model="user.email" type="email" required />
+          <div class="input-tooltip-container">
+            <input
+              v-model="user.email"
+              type="email"
+              required
+              :class="{ 'input-error': validationTooltip.email }"
+            />
+            <div
+              v-if="validationTooltip.email"
+              class="validation-tooltip-box"
+              :data-message="validationTooltip.email"
+            >
+              <span class="warning-icon">!</span> {{ validationTooltip.email }}
+            </div>
+          </div>
         </div>
 
         <div class="form-group span-2">
           <label class="label-required">CPF:</label>
-          <input v-model="user.cpf" @input="maskCpf" maxlength="14" required />
+          <div class="input-tooltip-container">
+            <input
+              v-model="user.cpf"
+              @input="maskCpf"
+              maxlength="14"
+              required
+              :class="{ 'input-error': validationTooltip.cpf }"
+            />
+            <div
+              v-if="validationTooltip.cpf"
+              class="validation-tooltip-box"
+              :data-message="validationTooltip.cpf"
+            >
+              <span class="warning-icon">!</span> {{ validationTooltip.cpf }}
+            </div>
+          </div>
         </div>
+
         <div class="form-group span-2">
           <label class="label-required">Perfil:</label>
           <select v-model.number="user.role_id" required>
@@ -143,6 +174,12 @@ const roles = ref([]);
 const message = ref("");
 const error = ref("");
 
+// Estado para armazenar a mensagem de erro no formato tooltip
+const validationTooltip = ref({
+  email: "",
+  cpf: "",
+});
+
 const isAddingAddress = ref(false);
 
 const newAddress = ref({
@@ -156,6 +193,7 @@ const editingAddressIndex = ref(null);
 
 const isEditingAddress = computed(() => editingAddressIndex.value !== null);
 
+// ESTA É A ÚNICA DECLARAÇÃO DA FUNÇÃO QUE DEVE EXISTIR
 function getEmptyAddress() {
   return { street: "", number: "", city: "", state: "", zip: "" };
 }
@@ -259,7 +297,14 @@ async function loadData() {
   }
 }
 
+function clearValidationTooltips() {
+  validationTooltip.value.email = "";
+  validationTooltip.value.cpf = "";
+}
+
 async function updateUser() {
+  clearValidationTooltips(); // Limpa tooltips de erro antes de enviar
+
   if (isEditingAddress.value || isAddingAddress.value) {
     alert(
       "Por favor, finalize a edição/adição do endereço antes de salvar o usuário."
@@ -286,16 +331,22 @@ async function updateUser() {
     setTimeout(() => router.push("/"), 1500);
   } catch (err) {
     error.value = "Erro ao atualizar usuário.";
+
     if (err.response && err.response.data.errors) {
-      let validationErrors = Object.values(err.response.data.errors)
-        .flat()
-        .join("\n");
-      alert("Erro de Validação:\n" + validationErrors);
+      const errors = err.response.data.errors;
+
+      // Processa e armazena erros para o tooltip
+      if (errors.email) {
+        validationTooltip.value.email = "O email informado já está em uso.";
+      }
+      if (errors.cpf) {
+        validationTooltip.value.cpf = "O CPF informado já está em uso.";
+      }
+      // O alert global foi removido.
     }
   }
 }
 
 onMounted(loadData);
 </script>
-
 <style scoped></style>
